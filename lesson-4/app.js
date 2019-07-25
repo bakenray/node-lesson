@@ -13,7 +13,7 @@ superagent.get(cnodeUrl)
         var $ = cheerio.load(res.text)
 
         $('#topic_list .topic_title').each(function(idx,element){
-            if(idx>=5){ return }
+            if(idx>=10){ return }
 
             var $element = $(element)
             var href = url.resolve(cnodeUrl,$element.attr('href'))
@@ -21,7 +21,7 @@ superagent.get(cnodeUrl)
         })
 
         var ep = new eventproxy()
-        ep.after('topic_arrs',topicUrls.length,function(topics){
+        ep.after('topic_arr',topicUrls.length,function(topics){
 
             topics = topics.map(function(topicPair){
                 var topicUrl = topicPair[0]
@@ -49,6 +49,7 @@ superagent.get(cnodeUrl)
                     var $ = cheerio.load(res.text)
                     var userPath = $('.user_avatar').attr('href')
                     var userUrl = url.resolve(cnodeUrl,userPath)
+                    console.log(userUrl)
                     superagent.get(userUrl)
                         .end(function(err,res2){
                             if(err){ return console.log(err) }
